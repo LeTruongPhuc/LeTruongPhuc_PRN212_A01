@@ -2,187 +2,330 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Sales Order Management"
-        Height="650"
-        Width="1000"
-        Background="#f8fafc"
-        WindowStartupLocation="CenterScreen">
+        Height="700"
+        Width="1200"
+        WindowStartupLocation="CenterScreen"
+        Background="#1e293b">
     <Window.Resources>
-        <!-- Style for TabControl -->
-        <Style TargetType="TabControl">
-            <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="FontSize" Value="17"/>
-            <Setter Property="Padding" Value="6"/>
+        <!-- ... (giữ nguyên phần Resource như file bạn đã gửi) ... -->
+        <LinearGradientBrush x:Key="PanelGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#FFEB3725" Offset="0"/>
+            <GradientStop Color="#FF38F8B6" Offset="1"/>
+        </LinearGradientBrush>
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="16"/>
+            <Setter Property="Background" Value="#fff"/>
+            <Setter Property="Margin" Value="18"/>
+            <Setter Property="Padding" Value="18"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="16" Color="#64748b" ShadowDepth="2"/>
+                </Setter.Value>
+            </Setter>
         </Style>
-        <!-- Style for DataGrid -->
-        <Style TargetType="DataGrid">
-            <Setter Property="Background" Value="#ffffff"/>
-            <Setter Property="RowBackground" Value="#f1f5f9"/>
-            <Setter Property="AlternatingRowBackground" Value="#e2e8f0"/>
-            <Setter Property="HorizontalGridLinesBrush" Value="#cbd5e1"/>
-            <Setter Property="VerticalGridLinesBrush" Value="#cbd5e1"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="BorderBrush" Value="#64748b"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
-        <!-- Style for Button -->
         <Style TargetType="Button">
-            <Setter Property="Margin" Value="6"/>
-            <Setter Property="Width" Value="80"/>
-            <Setter Property="Height" Value="38"/>
+            <Setter Property="Margin" Value="8"/>
+            <Setter Property="Padding" Value="0,3"/>
             <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="15"/>
             <Setter Property="Foreground" Value="#fff"/>
             <Setter Property="Background" Value="#2563eb"/>
-            <Setter Property="BorderBrush" Value="#1e40af"/>
-            <Setter Property="BorderThickness" Value="1.2"/>
+            <Setter Property="BorderBrush" Value="#0ea5e9"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Width" Value="90"/>
+            <Setter Property="Height" Value="38"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="#1e293b" BlurRadius="6" ShadowDepth="2"/>
+                    <DropShadowEffect Color="#0ea5e9" BlurRadius="6" ShadowDepth="2"/>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#1d4ed8"/>
+                    <Setter Property="Background" Value="#0ea5e9"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <!-- Style for TextBox -->
-        <Style TargetType="TextBox">
-            <Setter Property="Margin" Value="6"/>
-            <Setter Property="FontSize" Value="15"/>
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="#e0f2fe"/>
+            <Setter Property="AlternatingRowBackground" Value="#bae6fd"/>
+            <Setter Property="RowBackground" Value="#e0f2fe"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="Padding" Value="4"/>
-            <Setter Property="BorderBrush" Value="#2563eb"/>
-            <Setter Property="BorderThickness" Value="1.2"/>
-            <Setter Property="Background" Value="#f1f5f9"/>
-            <Setter Property="Foreground" Value="#334155"/>
-            <Setter Property="Height" Value="32"/>
-            <Setter Property="Width" Value="110"/>
-        </Style>
-        <!-- Style for DatePicker -->
-        <Style TargetType="DatePicker">
-            <Setter Property="Margin" Value="6"/>
             <Setter Property="FontSize" Value="15"/>
-            <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="Padding" Value="4"/>
-            <Setter Property="Height" Value="32"/>
-            <Setter Property="Width" Value="130"/>
             <Setter Property="BorderBrush" Value="#2563eb"/>
-            <Setter Property="BorderThickness" Value="1.2"/>
-            <Setter Property="Background" Value="#f1f5f9"/>
-            <Setter Property="Foreground" Value="#334155"/>
+            <Setter Property="BorderThickness" Value="1"/>
         </Style>
-        <!-- Style for StackPanel -->
-        <Style TargetType="StackPanel">
-            <Setter Property="Orientation" Value="Horizontal"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="0,16,0,0"/>
-        </Style>
-        <!-- Style for TabItem -->
-        <Style TargetType="TabItem">
+        <Style TargetType="TabControl">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
             <Setter Property="FontSize" Value="18"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="#1e293b"/>
-            <Setter Property="Padding" Value="8,3"/>
         </Style>
-        <!-- Style for Grid -->
-        <Style TargetType="Grid">
-            <Setter Property="Margin" Value="10"/>
+        <Style TargetType="TabItem">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#2563eb"/>
+            <Setter Property="Background" Value="#f8fafc"/>
+            <Setter Property="Margin" Value="0,2,8,0"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="BorderBrush" Value="#0ea5e9"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="Background" Value="#f1f5f9"/>
+            <Setter Property="Foreground" Value="#334155"/>
+            <Setter Property="Height" Value="32"/>
+        </Style>
+        <Style TargetType="PasswordBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="BorderBrush" Value="#0ea5e9"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="Background" Value="#f1f5f9"/>
+            <Setter Property="Foreground" Value="#334155"/>
+            <Setter Property="Height" Value="32"/>
+        </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="BorderBrush" Value="#0ea5e9"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="Background" Value="#f1f5f9"/>
+            <Setter Property="Foreground" Value="#334155"/>
+            <Setter Property="Height" Value="32"/>
         </Style>
     </Window.Resources>
     <Grid>
-        <TabControl>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- Logo Area -->
+        <Border Grid.Row="0" Background="{StaticResource PanelGradient}" CornerRadius="0,0,36,36" Margin="0,0,0,6" Effect="{x:Null}">
+            <DockPanel VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="40,0,0,0">
+                    <Viewbox Height="56" Width="56" Margin="0,0,18,0">
+                        <Canvas>
+                            <Ellipse Fill="#fff" Width="56" Height="56"/>
+                            <Ellipse Fill="#2563eb" Width="40" Height="40" Canvas.Left="8" Canvas.Top="8"/>
+                            <TextBlock Text="🛒" FontSize="32" Canvas.Left="12" Canvas.Top="12"/>
+                        </Canvas>
+                    </Viewbox>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Sales Order Management" 
+                                   FontFamily="Segoe UI Black" 
+                                   FontSize="28" 
+                                   Foreground="#fff"
+                                   Margin="0,0,0,0"/>
+                        <TextBlock Text="by LeTruongPhuc" Foreground="#e0f2fe" Opacity="0.85" FontSize="13"/>
+                    </StackPanel>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+        <!-- Main Content -->
+        <TabControl Grid.Row="1" Background="#f1f5f9" Margin="16" BorderThickness="0">
             <!-- Products Tab -->
             <TabItem Header="Products">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="3.5*"/>
-                        <RowDefinition Height="1.3*"/>
-                    </Grid.RowDefinitions>
-                    <Border Grid.Row="0" CornerRadius="9" Background="#e0e7ef" Padding="10" Margin="0 0 0 10" BorderBrush="#2563eb" BorderThickness="1.5" >
-                        <DataGrid Name="dgProducts" AutoGenerateColumns="False" SelectionMode="Single" SelectionChanged="dgProducts_SelectionChanged" 
+                <Border Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3.2*"/>
+                            <RowDefinition Height="1.2*"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid Name="dgProducts" AutoGenerateColumns="False" Grid.Row="0" Margin="0,0,0,10"
+                                  SelectionMode="Single" SelectionChanged="dgProducts_SelectionChanged"
                                   CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="ID" Binding="{Binding ProductID}" Width="*"/>
-                                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
-                                <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="*"/>
-                                <DataGridTextColumn Header="Stock" Binding="{Binding Stock}" Width="*"/>
+                                <DataGridTextColumn Header="Name" Binding="{Binding ProductName}" Width="*"/>
+                                <DataGridTextColumn Header="Category" Binding="{Binding CategoryID}" Width="*"/>
+                                <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice}" Width="*"/>
+                                <DataGridTextColumn Header="Stock" Binding="{Binding UnitsInStock}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
-                    </Border>
-                    <StackPanel Grid.Row="1">
-                        <TextBox Name="txtProdID" Width="70" ToolTip="Product ID"/>
-                        <TextBox Name="txtProdName" Width="120" ToolTip="Product Name"/>
-                        <TextBox Name="txtProdPrice" Width="100" ToolTip="Price"/>
-                        <TextBox Name="txtProdStock" Width="100" ToolTip="Stock"/>
-                        <Button Content="Add" Click="BtnAddProduct_Click"/>
-                        <Button Content="Update" Click="BtnUpdateProduct_Click"/>
-                        <Button Content="Delete" Click="BtnDeleteProduct_Click"/>
-                        <TextBox Name="txtSearchProduct" Width="120" ToolTip="Search Name..."/>
-                        <Button Content="Search" Click="BtnSearchProduct_Click"/>
-                    </StackPanel>
-                </Grid>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBox Name="txtProdID" Width="70" ToolTip="Product ID"/>
+                            <TextBox Name="txtProdName" Width="120" ToolTip="Product Name"/>
+                            <TextBox Name="txtProdCategoryID" Width="80" ToolTip="Category ID"/>
+                            <TextBox Name="txtProdPrice" Width="100" ToolTip="Unit Price"/>
+                            <TextBox Name="txtProdStock" Width="100" ToolTip="Stock"/>
+                            <Button Content="Add" Click="BtnAddProduct_Click"/>
+                            <Button Content="Update" Click="BtnUpdateProduct_Click"/>
+                            <Button Content="Delete" Click="BtnDeleteProduct_Click"/>
+                            <TextBox Name="txtSearchProduct" Width="120" ToolTip="Search Name..."/>
+                            <Button Content="Search" Click="BtnSearchProduct_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </TabItem>
-
+            <!-- Categories Tab -->
+            <TabItem Header="Categories">
+                <Border Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3.2*"/>
+                            <RowDefinition Height="1.2*"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid Name="dgCategories" AutoGenerateColumns="False" Grid.Row="0" Margin="0,0,0,10"
+                                  SelectionMode="Single" SelectionChanged="dgCategories_SelectionChanged"
+                                  CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding CategoryID}" Width="*"/>
+                                <DataGridTextColumn Header="Name" Binding="{Binding CategoryName}" Width="*"/>
+                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBox Name="txtCatID" Width="70" ToolTip="Category ID"/>
+                            <TextBox Name="txtCatName" Width="120" ToolTip="Category Name"/>
+                            <TextBox Name="txtCatDesc" Width="160" ToolTip="Description"/>
+                            <Button Content="Add" Click="BtnAddCategory_Click"/>
+                            <Button Content="Update" Click="BtnUpdateCategory_Click"/>
+                            <Button Content="Delete" Click="BtnDeleteCategory_Click"/>
+                            <TextBox Name="txtSearchCategory" Width="120" ToolTip="Search Name..."/>
+                            <Button Content="Search" Click="BtnSearchCategory_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </TabItem>
             <!-- Customers Tab -->
             <TabItem Header="Customers">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="3.5*"/>
-                        <RowDefinition Height="1.3*"/>
-                    </Grid.RowDefinitions>
-                    <Border Grid.Row="0" CornerRadius="9" Background="#e0e7ef" Padding="10" Margin="0 0 0 10" BorderBrush="#2563eb" BorderThickness="1.5" >
-                        <DataGrid Name="dgCustomers" AutoGenerateColumns="False" SelectionMode="Single" SelectionChanged="dgCustomers_SelectionChanged" 
+                <Border Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3.2*"/>
+                            <RowDefinition Height="1.2*"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid Name="dgCustomers" AutoGenerateColumns="False" Grid.Row="0" Margin="0,0,0,10"
+                                  SelectionMode="Single" SelectionChanged="dgCustomers_SelectionChanged"
                                   CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="ID" Binding="{Binding CustomerID}" Width="*"/>
-                                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
-                                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+                                <DataGridTextColumn Header="Company" Binding="{Binding CompanyName}" Width="*"/>
+                                <DataGridTextColumn Header="Contact" Binding="{Binding ContactName}" Width="*"/>
+                                <DataGridTextColumn Header="Title" Binding="{Binding ContactTitle}" Width="*"/>
+                                <DataGridTextColumn Header="Address" Binding="{Binding Address}" Width="*"/>
+                                <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
-                    </Border>
-                    <StackPanel Grid.Row="1">
-                        <TextBox Name="txtCustID" Width="70" ToolTip="Customer ID"/>
-                        <TextBox Name="txtCustName" Width="120" ToolTip="Customer Name"/>
-                        <TextBox Name="txtCustEmail" Width="140" ToolTip="Email"/>
-                        <Button Content="Add" Click="BtnAddCustomer_Click"/>
-                        <Button Content="Update" Click="BtnUpdateCustomer_Click"/>
-                        <Button Content="Delete" Click="BtnDeleteCustomer_Click"/>
-                        <TextBox Name="txtSearchCustomer" Width="120" ToolTip="Search Name or Email"/>
-                        <Button Content="Search" Click="BtnSearchCustomer_Click"/>
-                    </StackPanel>
-                </Grid>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBox Name="txtCustID" Width="80" ToolTip="Customer ID"/>
+                            <TextBox Name="txtCustCompany" Width="80" ToolTip="Company Name"/>
+                            <TextBox Name="txtCustContact" Width="80" ToolTip="Contact Name"/>
+                            <TextBox Name="txtCustTitle" Width="80" ToolTip="Contact Title"/>
+                            <TextBox Name="txtCustAddress" Width="80" ToolTip="Address"/>
+                            <TextBox Name="txtCustPhone" Width="80" ToolTip="Phone"/>
+                            <Button Content="Add" Click="BtnAddCustomer_Click"/>
+                            <Button Content="Update" Click="BtnUpdateCustomer_Click"/>
+                            <Button Content="Delete" Click="BtnDeleteCustomer_Click"/>
+                            <TextBox Name="txtSearchCustomer" Width="120" ToolTip="Search Name/Company"/>
+                            <Button Content="Search" Click="BtnSearchCustomer_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </TabItem>
-
+            <!-- Employees Tab -->
+            <TabItem Header="Employees">
+                <Border Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3.2*"/>
+                            <RowDefinition Height="1.2*"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid Name="dgEmployees" AutoGenerateColumns="False" Grid.Row="0" Margin="0,0,0,10"
+                                  SelectionMode="Single" SelectionChanged="dgEmployees_SelectionChanged"
+                                  CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding EmployeeID}" Width="*"/>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                                <DataGridTextColumn Header="User Name" Binding="{Binding UserName}" Width="*"/>
+                                <DataGridTextColumn Header="Job Title" Binding="{Binding JobTitle}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBox Name="txtEmpID" Width="90" ToolTip="Employee ID"/>
+                            <TextBox Name="txtEmpName" Width="90" ToolTip="Name"/>
+                            <TextBox Name="txtEmpUserName" Width="90" ToolTip="User Name"/>
+                            <!-- PasswordBox được thêm vào đây -->
+                            <PasswordBox Name="txtEmpPassword" Width="90" ToolTip="Password"/>
+                            <TextBox Name="txtEmpJobTitle" Width="90" ToolTip="Job Title"/>
+                            <Button Content="Add" Click="BtnAddEmployee_Click"/>
+                            <Button Content="Update" Click="BtnUpdateEmployee_Click"/>
+                            <Button Content="Delete" Click="BtnDeleteEmployee_Click"/>
+                            <TextBox Name="txtSearchEmployee" Width="120" ToolTip="Search Name/UserName"/>
+                            <Button Content="Search" Click="BtnSearchEmployee_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </TabItem>
             <!-- Orders Tab -->
             <TabItem Header="Orders">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="3.5*"/>
-                        <RowDefinition Height="1.3*"/>
-                    </Grid.RowDefinitions>
-                    <Border Grid.Row="0" CornerRadius="9" Background="#e0e7ef" Padding="10" Margin="0 0 0 10" BorderBrush="#2563eb" BorderThickness="1.5" >
-                        <DataGrid Name="dgOrders" AutoGenerateColumns="False" SelectionMode="Single" SelectionChanged="dgOrders_SelectionChanged"
+                <Border Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3.2*"/>
+                            <RowDefinition Height="1.2*"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid Name="dgOrders" AutoGenerateColumns="False" Grid.Row="0" Margin="0,0,0,10"
+                                  SelectionMode="Single" SelectionChanged="dgOrders_SelectionChanged"
                                   CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Order ID" Binding="{Binding OrderID}" Width="*"/>
                                 <DataGridTextColumn Header="Customer ID" Binding="{Binding CustomerID}" Width="*"/>
+                                <DataGridTextColumn Header="Employee ID" Binding="{Binding EmployeeID}" Width="*"/>
                                 <DataGridTextColumn Header="Order Date" Binding="{Binding OrderDate}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
-                    </Border>
-                    <StackPanel Grid.Row="1">
-                        <TextBox Name="txtOrderID" Width="80" ToolTip="Order ID"/>
-                        <TextBox Name="txtOrderCustID" Width="80" ToolTip="Customer ID"/>
-                        <DatePicker Name="dpOrderDate" Width="160" ToolTip="Order Date"/>
-                        <Button Content="Add" Click="BtnAddOrder_Click"/>
-                        <Button Content="Update" Click="BtnUpdateOrder_Click"/>
-                        <Button Content="Delete" Click="BtnDeleteOrder_Click"/>
-                        <TextBox Name="txtSearchOrder" Width="120" ToolTip="Search Order/Customer ID"/>
-                        <Button Content="Search" Click="BtnSearchOrder_Click"/>
-                    </StackPanel>
-                </Grid>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBox Name="txtOrderID" Width="80" ToolTip="Order ID"/>
+                            <TextBox Name="txtOrderCustID" Width="80" ToolTip="Customer ID"/>
+                            <TextBox Name="txtOrderEmpID" Width="80" ToolTip="Employee ID"/>
+                            <DatePicker Name="dpOrderDate" Width="160" ToolTip="Order Date"/>
+                            <Button Content="Add" Click="BtnAddOrder_Click"/>
+                            <Button Content="Update" Click="BtnUpdateOrder_Click"/>
+                            <Button Content="Delete" Click="BtnDeleteOrder_Click"/>
+                            <TextBox Name="txtSearchOrder" Width="120" ToolTip="Search Order/Customer ID"/>
+                            <Button Content="Search" Click="BtnSearchOrder_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </TabItem>
+            <!-- Order Details Tab -->
+            <TabItem Header="Order Details">
+                <Border Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3.2*"/>
+                            <RowDefinition Height="1.2*"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid Name="dgOrderDetails" AutoGenerateColumns="False" Grid.Row="0" Margin="0,0,0,10"
+                                  SelectionMode="Single" SelectionChanged="dgOrderDetails_SelectionChanged"
+                                  CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Order ID" Binding="{Binding OrderID}" Width="*"/>
+                                <DataGridTextColumn Header="Product ID" Binding="{Binding ProductID}" Width="*"/>
+                                <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice}" Width="*"/>
+                                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="*"/>
+                                <DataGridTextColumn Header="Discount" Binding="{Binding Discount}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBox Name="txtODOrderID" Width="80" ToolTip="Order ID"/>
+                            <TextBox Name="txtODProdID" Width="80" ToolTip="Product ID"/>
+                            <TextBox Name="txtODUnitPrice" Width="100" ToolTip="Unit Price"/>
+                            <TextBox Name="txtODQuantity" Width="80" ToolTip="Quantity"/>
+                            <TextBox Name="txtODDiscount" Width="80" ToolTip="Discount" TextChanged="txtODDiscount_TextChanged"/>
+                            <Button Content="Add" Click="BtnAddOrderDetail_Click"/>
+                            <Button Content="Update" Click="BtnUpdateOrderDetail_Click"/>
+                            <Button Content="Delete" Click="BtnDeleteOrderDetail_Click"/>
+                            <TextBox Name="txtSearchOrderDetail" Width="120" ToolTip="Search Order/Product ID"/>
+                            <Button Content="Search" Click="BtnSearchOrderDetail_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </TabItem>
         </TabControl>
     </Grid>

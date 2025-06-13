@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Lucy_SalesData.Models;
+﻿using Lucy_SalesData.Models;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Lucy_SalesData.DAL
 {
@@ -11,20 +11,24 @@ namespace Lucy_SalesData.DAL
         public List<Customer> GetAll() => customers.ToList();
         public Customer GetById(int id) => customers.FirstOrDefault(c => c.CustomerID == id);
         public void Add(Customer c) => customers.Add(c);
-
         public void Update(Customer c)
         {
             var idx = customers.FindIndex(x => x.CustomerID == c.CustomerID);
             if (idx >= 0) customers[idx] = c;
         }
-
         public void Delete(int id) => customers.RemoveAll(c => c.CustomerID == id);
 
         public List<Customer> Search(string keyword)
         {
             if (string.IsNullOrWhiteSpace(keyword)) return GetAll();
             keyword = keyword.ToLower();
-            return customers.Where(c => c.Name.ToLower().Contains(keyword) || c.Email.ToLower().Contains(keyword)).ToList();
+            return customers.Where(c =>
+                c.CompanyName.ToLower().Contains(keyword)
+                || c.ContactName.ToLower().Contains(keyword)
+                || c.ContactTitle.ToLower().Contains(keyword)
+                || c.Address.ToLower().Contains(keyword)
+                || c.Phone.ToLower().Contains(keyword)
+            ).ToList();
         }
     }
 }
