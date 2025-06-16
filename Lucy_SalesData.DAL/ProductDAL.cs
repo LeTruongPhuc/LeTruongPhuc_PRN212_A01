@@ -1,28 +1,41 @@
-using Lucy_SalesData.Models;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using Lucy_SalesData.Models;
 
 namespace Lucy_SalesData.DAL
 {
     public class ProductDAL
     {
-        private static List<Product> products = new List<Product>();
+        private readonly List<Product> _products = DataContext.Instance.Products;
 
-        public List<Product> GetAll() => products.ToList();
-        public Product GetById(int id) => products.FirstOrDefault(p => p.ProductID == id);
-        public void Add(Product p) => products.Add(p);
+        public IEnumerable<Product> GetAll() => _products;
+        public Product GetById(int id) => _products.FirstOrDefault(p => p.ProductID == id);
+        public void Add(Product p)
+        {
+            p.ProductID = _products.Count > 0 ? _products.Max(pp => pp.ProductID) + 1 : 1;
+            _products.Add(p);
+        }
         public void Update(Product p)
         {
-            var idx = products.FindIndex(x => x.ProductID == p.ProductID);
-            if (idx >= 0) products[idx] = p;
+            var pp = GetById(p.ProductID);
+            if (pp != null)
+            {
+                pp.ProductName = p.ProductName;
+                pp.CategoryID = p.CategoryID;
+                pp.UnitPrice = p.UnitPrice;
+                pp.UnitsInStock = p.UnitsInStock;
+            }
         }
-        public void Delete(int id) => products.RemoveAll(p => p.ProductID == id);
-
-        public List<Product> Search(string keyword)
+        public void Delete(int id)
         {
-            if (string.IsNullOrWhiteSpace(keyword)) return GetAll();
-            keyword = keyword.ToLower();
-            return products.Where(p => p.ProductName.ToLower().Contains(keyword)).ToList();
+            var prod = GetById(id);
+            if (prod != null) _products.Remove(prod);
+        }
+        public IEnumerable<Product> Search(string keyword)
+        {
+            keyword = keyword?.ToLower() ?? "";
+            return _products.Where(p =>
+                p.ProductName.ToLower().Contains(keyword));
         }
     }
 }

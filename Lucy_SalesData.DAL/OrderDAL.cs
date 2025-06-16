@@ -1,30 +1,38 @@
 ﻿using System.Collections.Generic;
-using Lucy_SalesData.Models;
 using System.Linq;
+using Lucy_SalesData.Models;
 
 namespace Lucy_SalesData.DAL
 {
     public class OrderDAL
     {
-        private static List<Order> orders = new List<Order>();
+        private readonly List<Order> _orders = DataContext.Instance.Orders;
 
-        public List<Order> GetAll() => orders.ToList();
-        public Order GetById(int id) => orders.FirstOrDefault(o => o.OrderID == id);
-        public void Add(Order o) => orders.Add(o);
-
+        public IEnumerable<Order> GetAll() => _orders;
+        public Order GetById(int id) => _orders.FirstOrDefault(o => o.OrderID == id);
+        public void Add(Order o)
+        {
+            o.OrderID = _orders.Count > 0 ? _orders.Max(oo => oo.OrderID) + 1 : 1;
+            _orders.Add(o);
+        }
         public void Update(Order o)
         {
-            var idx = orders.FindIndex(x => x.OrderID == o.OrderID);
-            if (idx >= 0) orders[idx] = o;
+            var oo = GetById(o.OrderID);
+            if (oo != null)
+            {
+                oo.CustomerID = o.CustomerID;
+                oo.EmployeeID = o.EmployeeID;
+                oo.OrderDate = o.OrderDate;
+            }
         }
-
-        public void Delete(int id) => orders.RemoveAll(o => o.OrderID == id);
-
-        public List<Order> Search(string keyword)
+        public void Delete(int id)
         {
-            if (string.IsNullOrWhiteSpace(keyword)) return GetAll();
-            keyword = keyword.ToLower();
-            return orders.Where(o => o.OrderID.ToString().Contains(keyword) || o.CustomerID.ToString().Contains(keyword)).ToList();
+            var ord = GetById(id);
+            if (ord != null) _orders.Remove(ord);
+        }
+        public IEnumerable<Order> SearchByCustomer(int customerId)
+        {
+            return _orders.Where(o => o.CustomerID == customerId);
         }
     }
 }

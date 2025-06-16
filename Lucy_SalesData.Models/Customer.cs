@@ -3,10 +3,10 @@
     public class Customer
     {
         public int CustomerID { get; set; }
-        public string CompanyName { get; set; } = string.Empty;
-        public string ContactName { get; set; } = string.Empty;
-        public string ContactTitle { get; set; } = string.Empty;
-        public string Address { get; set; } = string.Empty;
-        public string Phone { get; set; } = string.Empty;
+        public string CompanyName { get; set; } = "";
+        public string ContactName { get; set; } = "";
+        public string ContactTitle { get; set; } = "";
+        public string Address { get; set; } = "";
+        public string Phone { get; set; } = "";
     }
 }

@@ -6,28 +6,25 @@ namespace Lucy_SalesData.DAL
 {
     public class OrderDetailDAL
     {
-        private static List<OrderDetail> orderDetails = new List<OrderDetail>();
+        private readonly List<OrderDetail> _orderDetails = DataContext.Instance.OrderDetails;
 
-        public List<OrderDetail> GetAll() => orderDetails.ToList();
-        public List<OrderDetail> GetByOrderId(int orderId) => orderDetails.Where(od => od.OrderID == orderId).ToList();
-        public void Add(OrderDetail od) => orderDetails.Add(od);
-
+        public IEnumerable<OrderDetail> GetAll() => _orderDetails;
+        public IEnumerable<OrderDetail> GetByOrderId(int orderId) => _orderDetails.Where(od => od.OrderID == orderId);
+        public void Add(OrderDetail od) => _orderDetails.Add(od);
         public void Update(OrderDetail od)
         {
-            var idx = orderDetails.FindIndex(x => x.OrderID == od.OrderID && x.ProductID == od.ProductID);
-            if (idx >= 0) orderDetails[idx] = od;
+            var o = _orderDetails.FirstOrDefault(x => x.OrderID == od.OrderID && x.ProductID == od.ProductID);
+            if (o != null)
+            {
+                o.UnitPrice = od.UnitPrice;
+                o.Quantity = od.Quantity;
+                o.Discount = od.Discount;
+            }
         }
-
-        public void Delete(int orderId, int productId) => orderDetails.RemoveAll(od => od.OrderID == orderId && od.ProductID == productId);
-
-        public List<OrderDetail> Search(string keyword)
+        public void Delete(int orderId, int productId)
         {
-            if (string.IsNullOrWhiteSpace(keyword)) return GetAll();
-            keyword = keyword.ToLower();
-            return orderDetails.Where(od =>
-                od.OrderID.ToString().Contains(keyword) ||
-                od.ProductID.ToString().Contains(keyword)
-            ).ToList();
+            var od = _orderDetails.FirstOrDefault(x => x.OrderID == orderId && x.ProductID == productId);
+            if (od != null) _orderDetails.Remove(od);
         }
     }
 }

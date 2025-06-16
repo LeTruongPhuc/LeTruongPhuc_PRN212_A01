@@ -6,30 +6,39 @@ namespace Lucy_SalesData.DAL
 {
     public class EmployeeDAL
     {
-        private static List<Employee> employees = new List<Employee>();
+        private readonly List<Employee> _employees = DataContext.Instance.Employees;
 
-        public List<Employee> GetAll() => employees.ToList();
-        public Employee GetById(int id) => employees.FirstOrDefault(e => e.EmployeeID == id);
-        public Employee GetByUserName(string username) => employees.FirstOrDefault(e => e.UserName == username);
-        public void Add(Employee e) => employees.Add(e);
-
-        public void Update(Employee e)
+        public IEnumerable<Employee> GetAll() => _employees;
+        public Employee GetById(int id) => _employees.FirstOrDefault(e => e.EmployeeID == id);
+        public Employee GetByUserName(string username) => _employees.FirstOrDefault(e => e.UserName == username);
+        public void Add(Employee emp)
         {
-            var idx = employees.FindIndex(x => x.EmployeeID == e.EmployeeID);
-            if (idx >= 0) employees[idx] = e;
+            emp.EmployeeID = _employees.Count > 0 ? _employees.Max(e => e.EmployeeID) + 1 : 1;
+            _employees.Add(emp);
         }
-
-        public void Delete(int id) => employees.RemoveAll(e => e.EmployeeID == id);
-
-        public List<Employee> Search(string keyword)
+        public void Update(Employee emp)
         {
-            if (string.IsNullOrWhiteSpace(keyword)) return GetAll();
-            keyword = keyword.ToLower();
-            return employees.Where(e =>
-                (e.Name != null && e.Name.ToLower().Contains(keyword)) ||
-                (e.UserName != null && e.UserName.ToLower().Contains(keyword)) ||
-                (e.JobTitle != null && e.JobTitle.ToLower().Contains(keyword))
-            ).ToList();
+            var e = GetById(emp.EmployeeID);
+            if (e != null)
+            {
+                e.Name = emp.Name;
+                e.UserName = emp.UserName;
+                e.Password = emp.Password;
+                e.JobTitle = emp.JobTitle;
+            }
+        }
+        public void Delete(int id)
+        {
+            var emp = GetById(id);
+            if (emp != null) _employees.Remove(emp);
+        }
+        public IEnumerable<Employee> Search(string keyword)
+        {
+            keyword = keyword?.ToLower() ?? "";
+            return _employees.Where(e =>
+                e.Name.ToLower().Contains(keyword) ||
+                e.UserName.ToLower().Contains(keyword) ||
+                e.JobTitle.ToLower().Contains(keyword));
         }
     }
 }

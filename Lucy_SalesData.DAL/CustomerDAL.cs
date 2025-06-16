@@ -1,34 +1,44 @@
-﻿using Lucy_SalesData.Models;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
+using Lucy_SalesData.Models;
 
 namespace Lucy_SalesData.DAL
 {
     public class CustomerDAL
     {
-        private static List<Customer> customers = new List<Customer>();
+        private readonly List<Customer> _customers = DataContext.Instance.Customers;
 
-        public List<Customer> GetAll() => customers.ToList();
-        public Customer GetById(int id) => customers.FirstOrDefault(c => c.CustomerID == id);
-        public void Add(Customer c) => customers.Add(c);
-        public void Update(Customer c)
+        public IEnumerable<Customer> GetAll() => _customers;
+        public Customer GetById(int id) => _customers.FirstOrDefault(c => c.CustomerID == id);
+        public void Add(Customer cus)
         {
-            var idx = customers.FindIndex(x => x.CustomerID == c.CustomerID);
-            if (idx >= 0) customers[idx] = c;
+            cus.CustomerID = _customers.Count > 0 ? _customers.Max(c => c.CustomerID) + 1 : 1;
+            _customers.Add(cus);
         }
-        public void Delete(int id) => customers.RemoveAll(c => c.CustomerID == id);
-
-        public List<Customer> Search(string keyword)
+        public void Update(Customer cus)
         {
-            if (string.IsNullOrWhiteSpace(keyword)) return GetAll();
-            keyword = keyword.ToLower();
-            return customers.Where(c =>
-                c.CompanyName.ToLower().Contains(keyword)
-                || c.ContactName.ToLower().Contains(keyword)
-                || c.ContactTitle.ToLower().Contains(keyword)
-                || c.Address.ToLower().Contains(keyword)
-                || c.Phone.ToLower().Contains(keyword)
-            ).ToList();
+            var c = GetById(cus.CustomerID);
+            if (c != null)
+            {
+                c.CompanyName = cus.CompanyName;
+                c.ContactName = cus.ContactName;
+                c.ContactTitle = cus.ContactTitle;
+                c.Address = cus.Address;
+                c.Phone = cus.Phone;
+            }
+        }
+        public void Delete(int id)
+        {
+            var cus = GetById(id);
+            if (cus != null) _customers.Remove(cus);
+        }
+        public IEnumerable<Customer> Search(string keyword)
+        {
+            keyword = keyword?.ToLower() ?? "";
+            return _customers.Where(c =>
+                c.CompanyName.ToLower().Contains(keyword) ||
+                c.ContactName.ToLower().Contains(keyword) ||
+                c.Phone.ToLower().Contains(keyword));
         }
     }
 }
